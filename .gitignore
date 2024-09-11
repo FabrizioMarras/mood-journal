@@ -7,3 +7,6 @@ __pycache__/
 
 # macOS system files
 .DS_Store
+
+# journal file
+mood_journal.json

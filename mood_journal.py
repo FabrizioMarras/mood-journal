@@ -2,11 +2,13 @@ import tkinter as tk
 from tkinter import messagebox
 from datetime import datetime
 from tzlocal import get_localzone  # Automatically detect the user's timezone
+import json
+import os
 
 # Get the local timezone of the user
 local_timezone = get_localzone()
 
-# Function to save the entry
+# Function to save the entry to a JSON file
 def save_entry():
     mood = mood_entry.get().strip()  # Get text from the mood entry box
     journal_entry = entry_box.get("1.0", "end").strip()  # Get text from the entry box
@@ -20,9 +22,31 @@ def save_entry():
 
     # Get the current date and time in the user's local timezone
     current_time = datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
-    print(f"Date and Time: {current_time}, Mood: {mood}, Entry: {journal_entry}")
     
-    # Clear inputs after saving
+    # Create a dictionary to represent the new entry
+    new_entry = {
+        "date": current_time.split()[0],  # Date part
+        "time": current_time.split()[1],  # Time part
+        "mood": mood,
+        "entry": journal_entry
+    }
+    
+    # Check if the file exists; if not, create an empty list
+    if os.path.exists("mood_journal.json"):
+        with open("mood_journal.json", "r") as file:
+            data = json.load(file)
+    else:
+        data = []
+
+    # Append the new entry to the list
+    data.append(new_entry)
+
+    # Write the updated data back to the JSON file
+    with open("mood_journal.json", "w") as file:
+        json.dump(data, file, indent=4)
+
+    # Notify the user and clear the input fields
+    messagebox.showinfo("Success", "Your entry has been saved.")
     mood_entry.delete(0, 'end')
     entry_box.delete("1.0", "end")
 
