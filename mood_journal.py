@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
 from datetime import datetime
-from tzlocal import get_localzone  # Automatically detect the user's timezone
+from tzlocal import get_localzone
 import json
 import os
+from mood_trends import show_mood_trends  # Importing mood trend functionality
 
 # Get the local timezone of the user
 local_timezone = get_localzone()
@@ -73,6 +74,10 @@ entry_box.pack(pady=5)
 # Submit button
 submit_button = tk.Button(root, text="Save Entry", command=save_entry)
 submit_button.pack(pady=20)
+
+# Button to display mood trends
+trend_button = tk.Button(root, text="Show Mood Trends", command=lambda: show_mood_trends(period="monthly"))
+trend_button.pack(pady=10)
 
 # Start the Tkinter loop
 root.mainloop()
