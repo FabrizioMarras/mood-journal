@@ -13,7 +13,7 @@ local_timezone = get_localzone()
 def save_entry():
     mood = mood_entry.get().strip()  # Get text from the mood entry box
     journal_entry = entry_box.get("1.0", "end").strip()  # Get text from the entry box
-    
+
     if not mood:
         messagebox.showwarning("Input Error", "Please enter your mood.")
         return
@@ -23,7 +23,7 @@ def save_entry():
 
     # Get the current date and time in the user's local timezone
     current_time = datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
-    
+
     # Create a dictionary to represent the new entry
     new_entry = {
         "date": current_time.split()[0],  # Date part
@@ -31,7 +31,7 @@ def save_entry():
         "mood": mood,
         "entry": journal_entry
     }
-    
+
     # Check if the file exists; if not, create an empty list
     if os.path.exists("mood_journal.json"):
         with open("mood_journal.json", "r") as file:
@@ -51,6 +51,7 @@ def save_entry():
     mood_entry.delete(0, 'end')
     entry_box.delete("1.0", "end")
 
+
 # Adjust window size based on screen size
 def set_window_size(root):
     screen_width = root.winfo_screenwidth()
@@ -62,49 +63,49 @@ def set_window_size(root):
 
     root.geometry(f"{window_width}x{window_height}")
 
+
 # Create the main window
 root = tk.Tk()
 root.title("Mood Journal")
 set_window_size(root)
 
-# Create a canvas for scrollable content
-canvas = tk.Canvas(root)
-canvas.pack(side="left", fill="both", expand=True)
+# Set up grid configuration for root window
+root.grid_rowconfigure(0, weight=1)
+root.grid_columnconfigure(0, weight=1)
 
-# Add a vertical scrollbar
-scrollbar = tk.Scrollbar(root, orient="vertical", command=canvas.yview)
-scrollbar.pack(side="right", fill="y")
+# Create the main frame (with padding for centering)
+main_frame = tk.Frame(root, padx=20, pady=20)
+main_frame.grid(row=0, column=0, sticky="nsew")
 
-# Configure the canvas to work with the scrollbar
-canvas.configure(yscrollcommand=scrollbar.set)
-canvas.bind("<Configure>", lambda e: canvas.config(scrollregion=canvas.bbox("all")))
-
-# Create a frame to contain the widgets inside the canvas
-content_frame = tk.Frame(canvas)
-canvas.create_window((0, 0), window=content_frame, anchor="nw")
+# Configure main_frame to expand and fill available space
+main_frame.grid_columnconfigure(0, weight=1)
 
 # Display the current time in the user's local timezone
-tk.Label(content_frame, text="Time:").pack(pady=5)
-time_label = tk.Label(content_frame, text=datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S"), relief="sunken", width=25)
-time_label.pack(pady=5)
+tk.Label(main_frame, text="Time:").grid(row=0, column=0, pady=5, sticky="ew")
+time_label = tk.Label(main_frame, text=datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S"), relief="sunken")
+time_label.grid(row=1, column=0, pady=5, sticky="ew")
 
 # Mood entry field (free text)
-tk.Label(content_frame, text="Enter Your Mood:").pack(pady=5)
-mood_entry = tk.Entry(content_frame, width=30)
-mood_entry.pack(pady=5)
+tk.Label(main_frame, text="Enter Your Mood:").grid(row=2, column=0, pady=5, sticky="ew")
+mood_entry = tk.Entry(main_frame)
+mood_entry.grid(row=3, column=0, pady=5, sticky="ew")
 
 # Journal entry box
-tk.Label(content_frame, text="Journal Entry:").pack(pady=5)
-entry_box = tk.Text(content_frame, height=10, width=40)
-entry_box.pack(pady=5)
+tk.Label(main_frame, text="Journal Entry:").grid(row=4, column=0, pady=5, sticky="ew")
+entry_box = tk.Text(main_frame, height=10)
+entry_box.grid(row=5, column=0, pady=5, sticky="ew")
 
 # Submit button
-submit_button = tk.Button(content_frame, text="Save Entry", command=save_entry)
-submit_button.pack(pady=20)
+submit_button = tk.Button(main_frame, text="Save Entry", command=save_entry)
+submit_button.grid(row=6, column=0, pady=20, sticky="ew")
 
 # Button to display mood trends
-trend_button = tk.Button(content_frame, text="Show Mood Trends", command=lambda: show_mood_trends(period="monthly"))
-trend_button.pack(pady=10)
+trend_button = tk.Button(main_frame, text="Show Mood Trends", command=lambda: show_mood_trends(period="monthly"))
+trend_button.grid(row=7, column=0, pady=10, sticky="ew")
+
+# Make sure the window resizes properly with the widgets
+root.grid_rowconfigure(0, weight=1)
+root.grid_columnconfigure(0, weight=1)
 
 # Start the Tkinter loop
 root.mainloop()
