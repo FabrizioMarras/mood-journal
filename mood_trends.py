@@ -12,21 +12,23 @@ def load_mood_data():
     else:
         return []
 
-# Process data to group moods by week or month
-def process_mood_data(data, period="weekly"):
+# Process data to group moods by day, week, or month
+def process_mood_data(data, period="monthly"):
     mood_counts = {}
 
     for entry in data:
         # Convert date string to datetime object
         entry_date = datetime.strptime(entry["date"], "%Y-%m-%d")
 
-        # Determine the grouping key (week or month)
-        if period == "weekly":
+        # Determine the grouping key (daily, weekly, or monthly)
+        if period == "daily":
+            group_key = entry_date.strftime("%Y-%m-%d")  # Year-Month-Day
+        elif period == "weekly":
             group_key = entry_date.strftime("%Y-%W")  # Year-Week
         elif period == "monthly":
             group_key = entry_date.strftime("%Y-%m")  # Year-Month
         else:
-            raise ValueError("Invalid period. Choose 'weekly' or 'monthly'.")
+            raise ValueError("Invalid period. Choose 'daily', 'weekly', or 'monthly'.")
 
         # Create the group if it doesn't exist
         if group_key not in mood_counts:
@@ -40,7 +42,7 @@ def process_mood_data(data, period="weekly"):
     return mood_trends
 
 # Plot mood trends over time
-def plot_mood_trends(mood_trends, period="weekly"):
+def plot_mood_trends(mood_trends, period="monthly"):
     # Extract time periods and unique moods
     periods = sorted(mood_trends.keys())
     all_moods = set()

@@ -25,9 +25,6 @@ def save_entry():
     # Get the current date and time in the user's local timezone upon submission
     current_time = datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
 
-    # Print the current time to the console for debugging
-    print(f"Current date and time on submission: {current_time}")
-
     # Create a dictionary to represent the new entry
     new_entry = {
         "date": current_time.split()[0],  # Date part
@@ -55,6 +52,10 @@ def save_entry():
     mood_entry.delete(0, 'end')
     entry_box.delete("1.0", "end")
 
+# Function to display mood trends based on the selected period
+def show_trends():
+    selected_period = period_var.get()  # Get the selected period from the dropdown
+    show_mood_trends(period=selected_period)  # Call the show_mood_trends function
 
 # Adjust window size based on screen size
 def set_window_size(root):
@@ -68,7 +69,6 @@ def set_window_size(root):
     root.geometry(f"{window_width}x{window_height}")
     root.minsize(300, 300)  # Allow resizing smaller
     root.maxsize(600, window_height)  # Limit maximum width to 600px
-
 
 # Create the main window
 root = tk.Tk()
@@ -110,20 +110,21 @@ tk.Label(main_frame, text="Journal Entry:", font=heading_font, bg=app_bg_color, 
 entry_box = tk.Text(main_frame, height=10, font=main_font, bg=input_bg_color, fg=text_color)
 entry_box.grid(row=3, column=0, pady=5, sticky="ew")
 
-# Configure ttk Style for buttons
-style = ttk.Style()
-style.configure("TButton",
-                background=button_bg_color,
-                foreground=button_text_color,
-                font=("Helvetica", 12, "bold"))
+# Dropdown to select trend period (daily, weekly, or monthly)
+tk.Label(main_frame, text="Select Trend Period:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=4, column=0, pady=5, sticky="ew")
+
+period_var = tk.StringVar()
+period_dropdown = ttk.Combobox(main_frame, textvariable=period_var, values=["daily", "weekly", "monthly"])
+period_dropdown.grid(row=5, column=0, pady=5, sticky="ew")
+period_dropdown.current(2)  # Set default to 'monthly'
 
 # Submit button (styled using ttk.Button)
 submit_button = ttk.Button(main_frame, text="Save Entry", command=save_entry, style="TButton")
-submit_button.grid(row=4, column=0, pady=20, sticky="ew")
+submit_button.grid(row=6, column=0, pady=20, sticky="ew")
 
 # Button to display mood trends (also ttk.Button)
-trend_button = ttk.Button(main_frame, text="Show Mood Trends", command=lambda: show_mood_trends(period="monthly"), style="TButton")
-trend_button.grid(row=5, column=0, pady=10, sticky="ew")
+trend_button = ttk.Button(main_frame, text="Show Mood Trends", command=show_trends, style="TButton")
+trend_button.grid(row=7, column=0, pady=10, sticky="ew")
 
 # Start the Tkinter loop
 root.mainloop()
