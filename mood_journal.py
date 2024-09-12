@@ -22,8 +22,11 @@ def save_entry():
         messagebox.showwarning("Input Error", "Journal entry cannot be empty.")
         return
 
-    # Get the current date and time in the user's local timezone
+    # Get the current date and time in the user's local timezone upon submission
     current_time = datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S")
+
+    # Print the current time to the console for debugging
+    print(f"Current date and time on submission: {current_time}")
 
     # Create a dictionary to represent the new entry
     new_entry = {
@@ -97,20 +100,15 @@ main_frame.grid(row=0, column=0, sticky="nsew")
 # Configure main_frame to expand and fill available space
 main_frame.grid_columnconfigure(0, weight=1)
 
-# Display the current time in the user's local timezone
-tk.Label(main_frame, text="Time:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=0, column=0, pady=5, sticky="ew")
-time_label = tk.Label(main_frame, text=datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S"), relief="sunken", font=main_font, bg=input_bg_color, fg=text_color)
-time_label.grid(row=1, column=0, pady=5, sticky="ew")
-
 # Mood entry field (free text)
-tk.Label(main_frame, text="Enter Your Mood:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=2, column=0, pady=5, sticky="ew")
+tk.Label(main_frame, text="Enter Your Mood:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=0, column=0, pady=5, sticky="ew")
 mood_entry = tk.Entry(main_frame, font=main_font, bg=input_bg_color, fg=text_color)
-mood_entry.grid(row=3, column=0, pady=5, sticky="ew")
+mood_entry.grid(row=1, column=0, pady=5, sticky="ew")
 
 # Journal entry box
-tk.Label(main_frame, text="Journal Entry:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=4, column=0, pady=5, sticky="ew")
+tk.Label(main_frame, text="Journal Entry:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=2, column=0, pady=5, sticky="ew")
 entry_box = tk.Text(main_frame, height=10, font=main_font, bg=input_bg_color, fg=text_color)
-entry_box.grid(row=5, column=0, pady=5, sticky="ew")
+entry_box.grid(row=3, column=0, pady=5, sticky="ew")
 
 # Configure ttk Style for buttons
 style = ttk.Style()
@@ -121,11 +119,11 @@ style.configure("TButton",
 
 # Submit button (styled using ttk.Button)
 submit_button = ttk.Button(main_frame, text="Save Entry", command=save_entry, style="TButton")
-submit_button.grid(row=6, column=0, pady=20, sticky="ew")
+submit_button.grid(row=4, column=0, pady=20, sticky="ew")
 
 # Button to display mood trends (also ttk.Button)
 trend_button = ttk.Button(main_frame, text="Show Mood Trends", command=lambda: show_mood_trends(period="monthly"), style="TButton")
-trend_button.grid(row=7, column=0, pady=10, sticky="ew")
+trend_button.grid(row=5, column=0, pady=10, sticky="ew")
 
 # Start the Tkinter loop
 root.mainloop()
