@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk  # Use ttk for themed widgets
 from datetime import datetime
 from tzlocal import get_localzone
 import json
@@ -75,34 +76,55 @@ set_window_size(root)
 root.grid_rowconfigure(0, weight=1)
 root.grid_columnconfigure(0, weight=1)
 
-# Create the main frame (with padding for centering)
-main_frame = tk.Frame(root, padx=20, pady=20)
+# Define common styles for all widgets
+main_font = ("Helvetica", 12)
+heading_font = ("Helvetica", 14, "bold")
+
+# Colors based on your preferences
+app_bg_color = "#000000"  # Background color for the whole app
+text_color = "#ffffff"  # Text color for titles and inputs
+input_bg_color = "#333333"  # Background color for the input fields
+button_bg_color = "#123456"  # Button background color (lightblue)
+button_text_color = "#fff"  # Button text color (white and bold)
+
+# Apply the background color to the entire window
+root.configure(bg=app_bg_color)
+
+# Create the main frame with padding for centering
+main_frame = tk.Frame(root, padx=20, pady=20, bg=app_bg_color)
 main_frame.grid(row=0, column=0, sticky="nsew")
 
 # Configure main_frame to expand and fill available space
 main_frame.grid_columnconfigure(0, weight=1)
 
 # Display the current time in the user's local timezone
-tk.Label(main_frame, text="Time:").grid(row=0, column=0, pady=5, sticky="ew")
-time_label = tk.Label(main_frame, text=datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S"), relief="sunken")
+tk.Label(main_frame, text="Time:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=0, column=0, pady=5, sticky="ew")
+time_label = tk.Label(main_frame, text=datetime.now(local_timezone).strftime("%Y-%m-%d %H:%M:%S"), relief="sunken", font=main_font, bg=input_bg_color, fg=text_color)
 time_label.grid(row=1, column=0, pady=5, sticky="ew")
 
 # Mood entry field (free text)
-tk.Label(main_frame, text="Enter Your Mood:").grid(row=2, column=0, pady=5, sticky="ew")
-mood_entry = tk.Entry(main_frame)
+tk.Label(main_frame, text="Enter Your Mood:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=2, column=0, pady=5, sticky="ew")
+mood_entry = tk.Entry(main_frame, font=main_font, bg=input_bg_color, fg=text_color)
 mood_entry.grid(row=3, column=0, pady=5, sticky="ew")
 
 # Journal entry box
-tk.Label(main_frame, text="Journal Entry:").grid(row=4, column=0, pady=5, sticky="ew")
-entry_box = tk.Text(main_frame, height=10)
+tk.Label(main_frame, text="Journal Entry:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=4, column=0, pady=5, sticky="ew")
+entry_box = tk.Text(main_frame, height=10, font=main_font, bg=input_bg_color, fg=text_color)
 entry_box.grid(row=5, column=0, pady=5, sticky="ew")
 
-# Submit button
-submit_button = tk.Button(main_frame, text="Save Entry", command=save_entry)
+# Configure ttk Style for buttons
+style = ttk.Style()
+style.configure("TButton",
+                background=button_bg_color,
+                foreground=button_text_color,
+                font=("Helvetica", 12, "bold"))
+
+# Submit button (styled using ttk.Button)
+submit_button = ttk.Button(main_frame, text="Save Entry", command=save_entry, style="TButton")
 submit_button.grid(row=6, column=0, pady=20, sticky="ew")
 
-# Button to display mood trends
-trend_button = tk.Button(main_frame, text="Show Mood Trends", command=lambda: show_mood_trends(period="monthly"))
+# Button to display mood trends (also ttk.Button)
+trend_button = ttk.Button(main_frame, text="Show Mood Trends", command=lambda: show_mood_trends(period="monthly"), style="TButton")
 trend_button.grid(row=7, column=0, pady=10, sticky="ew")
 
 # Start the Tkinter loop
