@@ -54,14 +54,16 @@ def save_entry():
 
 # Adjust window size based on screen size
 def set_window_size(root):
-    screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
 
-    # Set window size to 80% of the screen width and height
-    window_width = int(screen_width * 0.8)
+    # Set initial window size to 600px width and 80% of the screen height
+    window_width = 600
     window_height = int(screen_height * 0.8)
 
+    # Set the initial size and limit the maximum width to 600px
     root.geometry(f"{window_width}x{window_height}")
+    root.minsize(300, 300)  # Allow resizing smaller
+    root.maxsize(600, window_height)  # Limit maximum width to 600px
 
 
 # Create the main window
@@ -102,10 +104,6 @@ submit_button.grid(row=6, column=0, pady=20, sticky="ew")
 # Button to display mood trends
 trend_button = tk.Button(main_frame, text="Show Mood Trends", command=lambda: show_mood_trends(period="monthly"))
 trend_button.grid(row=7, column=0, pady=10, sticky="ew")
-
-# Make sure the window resizes properly with the widgets
-root.grid_rowconfigure(0, weight=1)
-root.grid_columnconfigure(0, weight=1)
 
 # Start the Tkinter loop
 root.mainloop()
