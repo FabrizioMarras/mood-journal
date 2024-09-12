@@ -76,6 +76,7 @@ Once you run the app, a window will appear with fields for entering your current
 - **View Trends**: Click "Show Mood Trends" to display a graphical representation of your mood history (pending implementation in the app).
 
 3. JSON Structure:
+
 The entries are stored in a JSON file (mood_journal.json) in the following format:
 
 ```json
