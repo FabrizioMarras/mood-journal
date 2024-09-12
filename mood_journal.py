@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from tkinter import ttk  # Use ttk for themed widgets
+from tkinter import ttk
 from datetime import datetime
 from tzlocal import get_localzone
 import json
@@ -10,13 +10,38 @@ from mood_trends import show_mood_trends
 # Get the local timezone of the user
 local_timezone = get_localzone()
 
+# Load moods from external JSON file
+def load_moods():
+    with open("moods.json", "r") as f:
+        return json.load(f)
+
+# Load the mood structure
+moods = load_moods()
+
+# Function to update secondary moods based on primary mood selection
+def update_secondary(*args):
+    primary = primary_var.get()
+    secondary_menu['values'] = list(moods[primary].keys()) if primary in moods else []
+    secondary_menu.current(0)
+    update_tertiary()
+
+# Function to update tertiary moods based on secondary mood selection
+def update_tertiary(*args):
+    primary = primary_var.get()
+    secondary = secondary_var.get()
+    if primary in moods and secondary in moods[primary]:
+        tertiary_menu['values'] = moods[primary][secondary]
+    else:
+        tertiary_menu['values'] = []
+    tertiary_menu.current(0)
+
 # Function to save the entry to a JSON file
 def save_entry():
-    mood = mood_entry.get().strip()  # Get text from the mood entry box
-    journal_entry = entry_box.get("1.0", "end").strip()  # Get text from the entry box
+    mood = f"{primary_var.get()} - {secondary_var.get()} - {tertiary_var.get()}"
+    journal_entry = entry_box.get("1.0", "end").strip()
 
     if not mood:
-        messagebox.showwarning("Input Error", "Please enter your mood.")
+        messagebox.showwarning("Input Error", "Please select a mood.")
         return
     if not journal_entry:
         messagebox.showwarning("Input Error", "Journal entry cannot be empty.")
@@ -49,7 +74,9 @@ def save_entry():
 
     # Notify the user and clear the input fields
     messagebox.showinfo("Success", "Your entry has been saved.")
-    mood_entry.delete(0, 'end')
+    primary_menu.set('')
+    secondary_menu.set('')
+    tertiary_menu.set('')
     entry_box.delete("1.0", "end")
 
 # Function to display mood trends based on the selected period
@@ -100,31 +127,47 @@ main_frame.grid(row=0, column=0, sticky="nsew")
 # Configure main_frame to expand and fill available space
 main_frame.grid_columnconfigure(0, weight=1)
 
-# Mood entry field (free text)
-tk.Label(main_frame, text="Enter Your Mood:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=0, column=0, pady=5, sticky="ew")
-mood_entry = tk.Entry(main_frame, font=main_font, bg=input_bg_color, fg=text_color)
-mood_entry.grid(row=1, column=0, pady=5, sticky="ew")
+# Primary Mood dropdown
+tk.Label(main_frame, text="Select Primary Mood:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=0, column=0, pady=5)
+primary_var = tk.StringVar()
+primary_menu = ttk.Combobox(main_frame, textvariable=primary_var)
+primary_menu['values'] = list(moods.keys())
+primary_menu.grid(row=1, column=0, pady=5, sticky="ew")
+primary_menu.bind("<<ComboboxSelected>>", update_secondary)
+
+# Secondary Mood dropdown
+tk.Label(main_frame, text="Select Secondary Mood:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=2, column=0, pady=5)
+secondary_var = tk.StringVar()
+secondary_menu = ttk.Combobox(main_frame, textvariable=secondary_var)
+secondary_menu.grid(row=3, column=0, pady=5, sticky="ew")
+secondary_menu.bind("<<ComboboxSelected>>", update_tertiary)
+
+# Tertiary Mood dropdown
+tk.Label(main_frame, text="Select Tertiary Mood:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=4, column=0, pady=5)
+tertiary_var = tk.StringVar()
+tertiary_menu = ttk.Combobox(main_frame, textvariable=tertiary_var)
+tertiary_menu.grid(row=5, column=0, pady=5, sticky="ew")
 
 # Journal entry box
-tk.Label(main_frame, text="Journal Entry:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=2, column=0, pady=5, sticky="ew")
+tk.Label(main_frame, text="Journal Entry:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=6, column=0, pady=5)
 entry_box = tk.Text(main_frame, height=10, font=main_font, bg=input_bg_color, fg=text_color)
-entry_box.grid(row=3, column=0, pady=5, sticky="ew")
-
-# Dropdown to select trend period (daily, weekly, or monthly)
-tk.Label(main_frame, text="Select Trend Period:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=4, column=0, pady=5, sticky="ew")
-
-period_var = tk.StringVar()
-period_dropdown = ttk.Combobox(main_frame, textvariable=period_var, values=["daily", "weekly", "monthly"])
-period_dropdown.grid(row=5, column=0, pady=5, sticky="ew")
-period_dropdown.current(2)  # Set default to 'monthly'
+entry_box.grid(row=7, column=0, pady=5)
 
 # Submit button (styled using ttk.Button)
 submit_button = ttk.Button(main_frame, text="Save Entry", command=save_entry, style="TButton")
-submit_button.grid(row=6, column=0, pady=20, sticky="ew")
+submit_button.grid(row=8, column=0, pady=20, sticky="ew")
+
+# Dropdown to select trend period (daily, weekly, or monthly)
+tk.Label(main_frame, text="Select Trend Period:", font=heading_font, bg=app_bg_color, fg=text_color).grid(row=9, column=0, pady=5, sticky="ew")
+
+period_var = tk.StringVar()
+period_dropdown = ttk.Combobox(main_frame, textvariable=period_var, values=["daily", "weekly", "monthly"])
+period_dropdown.grid(row=10, column=0, pady=5, sticky="ew")
+period_dropdown.current(2)  # Set default to 'monthly'
 
 # Button to display mood trends (also ttk.Button)
 trend_button = ttk.Button(main_frame, text="Show Mood Trends", command=show_trends, style="TButton")
-trend_button.grid(row=7, column=0, pady=10, sticky="ew")
+trend_button.grid(row=11, column=0, pady=10, sticky="ew")
 
 # Start the Tkinter loop
 root.mainloop()

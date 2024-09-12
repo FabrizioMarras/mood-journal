@@ -1,0 +1,37 @@
+{
+    "Happy": {
+        "Playful": ["Cheeky", "Aroused"],
+        "Content": ["Joyful", "Free"],
+        "Proud": ["Confident", "Successful"],
+        "Optimistic": ["Hopeful", "Inspired"],
+        "Affectionate": ["Loving", "Compassionate"],
+        "Excited": ["Energetic", "Eager"]
+    },
+    "Sad": {
+        "Lonely": ["Isolated", "Abandoned"],
+        "Depressed": ["Grief", "Powerless"],
+        "Guilty": ["Ashamed", "Remorseful"],
+        "Heartbroken": ["Crushed", "Sorrowful"]
+    },
+    "Angry": {
+        "Frustrated": ["Irritated", "Annoyed"],
+        "Aggressive": ["Hostile", "Furious"],
+        "Jealous": ["Envious", "Resentful"]
+    },
+    "Fearful": {
+        "Scared": ["Helpless", "Frightened"],
+        "Anxious": ["Nervous", "Insecure"]
+    },
+    "Disgusted": {
+        "Disapproving": ["Judgmental", "Embarrassed"],
+        "Revolted": ["Horrified", "Nauseated"]
+    },
+    "Surprised": {
+        "Excited": ["Amazed", "Astonished"],
+        "Confused": ["Perplexed", "Baffled"]
+    },
+    "Bad": {
+        "Tired": ["Exhausted", "Sleepy"],
+        "Stressed": ["Overwhelmed", "Frazzled"]
+    }
+}
