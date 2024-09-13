@@ -2,36 +2,56 @@
     "Happy": {
         "Playful": ["Cheeky", "Aroused"],
         "Content": ["Joyful", "Free"],
+        "Interested": ["Curious", "Inquisitive"],
         "Proud": ["Confident", "Successful"],
+        "Accepted": ["Respected", "Valued"],
+        "Powerful": ["Corageous", "Creative"],
+        "Peaceful": ["Loving", "Thankful"],
         "Optimistic": ["Hopeful", "Inspired"],
-        "Affectionate": ["Loving", "Compassionate"],
-        "Excited": ["Energetic", "Eager"]
+        "Trusting": ["Sensitive", "Intimate"]        
     },
     "Sad": {
         "Lonely": ["Isolated", "Abandoned"],
-        "Depressed": ["Grief", "Powerless"],
+        "Despair": ["Grief", "Powerless"],
         "Guilty": ["Ashamed", "Remorseful"],
-        "Heartbroken": ["Crushed", "Sorrowful"]
+        "Hurt": ["Embarassed", "Disappointed"],
+        "Vulnerable": ["Fragile", "Victimised"],
+        "Depressed": ["Inferior", "Empty"]
     },
     "Angry": {
-        "Frustrated": ["Irritated", "Annoyed"],
-        "Aggressive": ["Hostile", "Furious"],
-        "Jealous": ["Envious", "Resentful"]
+        "Let Down": ["Betrayed", "Resentful"],
+        "Humiliated": ["Disrespected", "Ridiculed"],
+        "Bitter": ["Indignant", "Violated"],
+        "Mad": ["Furious", "Jealous"],
+        "Aggressive": ["Hostile", "Provoked"],
+        "Distant": ["Withdrawn", "Numb"],
+        "Frustrated": ["Infuriated", "Annoyed"],
+        "Critical": ["Sceptical", "Dismissive"]
     },
     "Fearful": {
         "Scared": ["Helpless", "Frightened"],
-        "Anxious": ["Nervous", "Insecure"]
+        "Anxious": ["Overwhelmed", "Worried"],
+        "Insecure": ["Inadequate", "Inferior"],
+        "Weak": ["Worthless", "Insignificant"],
+        "Rejected": ["Excluded", "Persecuted"],
+        "Threatened": ["Nervous", "Exposed"]
     },
     "Disgusted": {
         "Disapproving": ["Judgmental", "Embarrassed"],
-        "Revolted": ["Horrified", "Nauseated"]
+        "Uncomfortable": ["Appalled", "Revolted"],
+        "Awful": ["Nauseated", "Detestable"],
+        "Repelled": ["Horrified", "Hesitant"]
     },
     "Surprised": {
-        "Excited": ["Amazed", "Astonished"],
-        "Confused": ["Perplexed", "Baffled"]
+        "Excited": ["Energetic", "Eager"],
+        "Confused": ["Perplexed", "Disillusioned"],
+        "Amazed": ["Astonished", "Awe"],
+        "Startled": ["Shocked", "Dismayed"]
     },
     "Bad": {
-        "Tired": ["Exhausted", "Sleepy"],
-        "Stressed": ["Overwhelmed", "Frazzled"]
+        "Tired": ["Unfocused", "Sleepy"],
+        "Stressed": ["Overwhelmed", "Out of Control"],
+        "Bored": ["Indifferent", "Apathetic"],
+        "Busy": ["Pressured", "Rushed"]
     }
 }
